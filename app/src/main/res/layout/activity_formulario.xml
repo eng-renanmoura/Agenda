@@ -11,6 +11,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".FormularioActivity">
+        
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="225dp">
+            <ImageView
+                android:id="@+id/foto_aluno_form"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="#006aff"
+                android:src="@drawable/person"/>
+
+            <Button
+                android:id="@+id/formulario_camera"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:elevation="7dp"
+                android:background="@drawable/fundo_camera"/>
+        </RelativeLayout>
 
         <EditText
             android:layout_width="match_parent"
