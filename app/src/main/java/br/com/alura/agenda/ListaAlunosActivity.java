@@ -1,6 +1,7 @@
 package br.com.alura.agenda;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -8,8 +9,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebBackForwardList;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,6 +21,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import br.com.alura.agenda.adapter.AlunoAdapter;
+import br.com.alura.agenda.converter.AlunoConverter;
 import br.com.alura.agenda.dao.AlunoDAO;
 import br.com.alura.agenda.modelo.Aluno;
 
@@ -52,6 +57,10 @@ public class ListaAlunosActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.RECEIVE_SMS}, 456);
+        }
     }
 
     @Override
@@ -65,8 +74,22 @@ public class ListaAlunosActivity extends AppCompatActivity {
         List<Aluno> alunos = dao.buscaAlunos();
         dao.close();
 
-        ArrayAdapter<Aluno> adapter = new ArrayAdapter<Aluno>(this, android.R.layout.simple_list_item_1, alunos);
+        AlunoAdapter adapter = new AlunoAdapter(this, alunos);
         listaAlunos.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_lista, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.menu_lista_envia){
+            new EnviarDadosServidor(this).execute();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
