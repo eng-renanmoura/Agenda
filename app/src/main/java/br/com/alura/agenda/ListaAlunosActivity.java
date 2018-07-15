@@ -86,9 +86,20 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.menu_lista_envia){
-            new EnviarDadosServidor(this).execute();
+        switch (item.getItemId()) {
+            case R.id.menu_lista_envia:
+                new EnviarDadosServidor(this).execute();
+                break;
+            case R.id.menu_baixar_provas:
+                Intent vaiParaProvas = new Intent(this, ProvasActivity.class);
+                startActivity(vaiParaProvas);
+                break;
+            case R.id.menu_mapa:
+                Intent vaiParaMapa = new Intent(this, MapaAlunosActivity.class);
+                startActivity(vaiParaMapa);
+                break;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
